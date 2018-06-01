@@ -4,10 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Spis potraw</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Dodaj nowy przepis", "Create")
 </p>
 <table class="table">
     <tr>
@@ -35,9 +35,9 @@
             @Html.DisplayFor(modelItem => item.PublishDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RecipeId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RecipeId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RecipeId })
+            @Html.ActionLink("Edytuj", "Edit", new { id=item.RecipeId }) |
+            @Html.ActionLink("Szczegóły", "Details", new { id=item.RecipeId }) |
+            @Html.ActionLink("Usuń", "Delete", new { id=item.RecipeId })
         </td>
     </tr>
 }
