@@ -1,5 +1,6 @@
 # Cookbook
-###Polski:
+###Polski
+
 Aplikacja została stworzona za pomocą ASP.NET w wersji 4.0.30319 (MVC w wersji 5.2)
 
 Wymagane paczki NuGet:
@@ -11,7 +12,8 @@ Przed pierwszym uruchomieniem należy zaktualizować bazę danych za pomocą pol
 update-database
 ```
 
-###English:
+###English
+
 The application was created using ASP.NET ver. 4.0.30319 (MVC ver. 5.2)
 
 Required NuGet packages:
