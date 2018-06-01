@@ -19,7 +19,6 @@ namespace Cookbook.Models
     {
         public int RecipeId { get; set; }
         [DisplayName("Nazwa")]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z'\s]*$")]
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
@@ -36,8 +35,13 @@ namespace Cookbook.Models
         public DateTime PublishDate { get; set; }
     }
 
-    public class RecipeDBContext : DbContext
+    public class RecipeDBContext : DbContext, IDbContext
     {
-        public DbSet<Recipe> Recipes { get; set; }
+        public IDbSet<Recipe> Recipes { get; set; }
+
+        IDbSet<TEntity> IDbContext.Set<TEntity>()
+        {
+            return base.Set<TEntity>();
+        }
     }
 }

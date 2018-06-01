@@ -12,12 +12,21 @@ namespace Cookbook.Controllers
 {
     public class RecipesController : Controller
     {
-        private RecipeDBContext db = new RecipeDBContext();
+        private IDbContext db;
+        public RecipesController():base()
+        {
+            db = new RecipeDBContext();
+        }
+
+        public RecipesController(IDbContext context):base()
+        {
+            db = context;
+        }
 
         // GET: Recipes
         public ActionResult Index()
         {
-            return View(db.Recipes.ToList());
+            return View(db.Set<Recipe>().ToList());
         }
 
         // GET: Recipes/Details/5
@@ -27,12 +36,12 @@ namespace Cookbook.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Recipe recipe = db.Recipes.Find(id);
+            Recipe recipe = db.Set<Recipe>().FirstOrDefault(p => p.RecipeId == id);
             if (recipe == null)
             {
                 return HttpNotFound();
             }
-            return View(recipe);
+            return View("Details", recipe);
         }
 
         // GET: Recipes/Create
@@ -51,7 +60,7 @@ namespace Cookbook.Controllers
             if (ModelState.IsValid)
             {
                 recipe.PublishDate = DateTime.Now;
-                db.Recipes.Add(recipe);
+                db.Set<Recipe>().Add(recipe);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,7 +75,7 @@ namespace Cookbook.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Recipe recipe = db.Recipes.Find(id);
+            Recipe recipe = db.Set<Recipe>().FirstOrDefault(p => p.RecipeId == id);
             if (recipe == null)
             {
                 return HttpNotFound();
@@ -83,7 +92,7 @@ namespace Cookbook.Controllers
         {
             if (ModelState.IsValid)
             {
-                Recipe tempRecipe = db.Recipes.First(a => a.RecipeId == recipe.RecipeId);
+                Recipe tempRecipe = db.Set<Recipe>().First(a => a.RecipeId == recipe.RecipeId);
                 tempRecipe.Name = recipe.Name;
                 tempRecipe.Description = recipe.Description;
                 tempRecipe.Difficulty = recipe.Difficulty;
@@ -101,7 +110,7 @@ namespace Cookbook.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Recipe recipe = db.Recipes.Find(id);
+            Recipe recipe = db.Set<Recipe>().Find(id);
             if (recipe == null)
             {
                 return HttpNotFound();
@@ -114,8 +123,8 @@ namespace Cookbook.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Recipe recipe = db.Recipes.Find(id);
-            db.Recipes.Remove(recipe);
+            Recipe recipe = db.Set<Recipe>().FirstOrDefault(p => p.RecipeId == id);
+            db.Set<Recipe>().Remove(recipe);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
