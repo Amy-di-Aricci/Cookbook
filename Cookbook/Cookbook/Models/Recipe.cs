@@ -19,11 +19,16 @@ namespace Cookbook.Models
     {
         public int RecipeId { get; set; }
         [DisplayName("Nazwa")]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z'\s]*$")]
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
         [DisplayName("Opis przygotowania")]
+        [Required]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         [DisplayName("Poziom trudności")]
+        [Range(0,2)]
         public DifficultyEnum Difficulty { get; set; }
         [DisplayName("Data dodania")]
         [DataType(DataType.Date)]
